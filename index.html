@@ -36,24 +36,37 @@
     </div>
 
     <script>
-        function selectRandomOptions() {
-            const optionsTextarea = document.getElementById('options');
-            const optionsArray = optionsTextarea.value.trim().split('\n').map(option => option.trim()).filter(option => option !== "");
+function selectRandomOptions() {
+    const optionsTextarea = document.getElementById('options');
+    const optionsArray = optionsTextarea.value.trim().split('\n').map(option => option.trim()).filter(option => option !== "");
 
-            if (optionsArray.length < 2) {
-                alert('Please enter at least two options.');
-                return;
-            }
+    if (optionsArray.length < 2) {
+        alert('Please enter at least two options.');
+        return;
+    }
 
-            const shuffled = optionsArray.sort(() => 0.5 - Math.random());
-            const selectedOptions = shuffled.slice(0, 2);
+    // Define the preferred options
+    const preferredOptions = ["Option A", "Option B", "Option C"]; // Modify as needed
 
-            document.getElementById('result').innerHTML = `
-                <h5>Randomly selected options:</h5>
-                <p class="fw-bold">${selectedOptions[0]}</p>
-                <p class="fw-bold">${selectedOptions[1]}</p>
-            `;
-        }
-    </script>
+    // Filter available preferred options
+    const availablePreferredOptions = optionsArray.filter(option => preferredOptions.includes(option));
+
+    let selectedOptions;
+
+    if (availablePreferredOptions.length >= 2) {
+        // Select randomly from preferred options if at least 2 are available
+        selectedOptions = availablePreferredOptions.sort(() => 0.5 - Math.random()).slice(0, 2);
+    } else {
+        // Otherwise, select randomly from all available options
+        const shuffled = optionsArray.sort(() => 0.5 - Math.random());
+        selectedOptions = shuffled.slice(0, 2);
+    }
+
+    document.getElementById('result').innerHTML = `
+        <h5>Randomly selected options:</h5>
+        <p class="fw-bold">${selectedOptions[0]}</p>
+        <p class="fw-bold">${selectedOptions[1]}</p>
+    `;
+}    </script>
 </body>
 </html>
